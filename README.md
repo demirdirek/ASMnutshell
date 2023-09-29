@@ -3,40 +3,81 @@ This repository serves as a reference guide for x86 assembly language, providing
 
 ## INSTRUCTIONS
 ```assembly
-; Arithmetic Instructions
-add   : Add          : Adds the values of two operands.
-sub   : Subtract     : Subtracts the value of the second operand from the first.
-mul   : Multiply     : Multiplies the values of two operands.
-div   : Divide       : Divides the value of the first operand by the second.
+; Data Movement Instructions
+mov  : Move                   : Copies the value of one operand to another.
+lea  : Load Effective Address : Calculates the effective address of the source operand and loads it into the destination operand.
 
-; Logical Instructions
-and   : Bitwise AND  : Performs bitwise AND on two operands.
-or    : Bitwise OR   : Performs bitwise OR on two operands.
-xor   : Exclusive OR : Performs bitwise exclusive OR on two operands.
-not   : Bitwise NOT  : Performs bitwise NOT on an operand.
-
-; Comparison Instructions
-cmp   : Compare      : Compares the values of two operands.
-
-; Jump Instructions
-jmp   : Jump               : Unconditionally jumps to a specified address.
-je    : Jump if Equal      : Jumps if the Zero Flag is set (indicating equality).
-jne   : Jump if Not Equal  : Jumps if the Zero Flag is not set (indicating inequality).
-js    : Jump if Sign       : Jumps to a specified address if the Sign Flag is set (negative result).
-
-; Stack Instructions
-push  : Push       : Pushes the value onto the stack.
-pop   : Pop        : Removes the top value from the stack and stores it.
-
-; Other Instructions
-mov   : Move       : Copies the value of one operand to another.
-inc   : Increment  : Increases the value of the operand by 1.
-dec   : Decrement  : Decreases the value of the operand by 1.
-
-; Manipulation Operations
+; Arithmetic and Logic Instructions
+add  : Add            : Adds the values of two operands.
+sub  : Subtract       : Subtracts the value of the second operand from the first.
+mul  : Multiply       : Multiplies the values of two operands.
+div  : Divide         : Divides the value of the first operand by the second.
+inc  : Increment      : Increases the value of the operand by 1.
+dec  : Decrement      : Decreases the value of the operand by 1.
+cmp  : Compare        : Compares the values of two operands.
+xor  : Exclusive OR   : Performs bitwise exclusive OR on two operands.
+and  : Bitwise AND    : Performs bitwise AND on two operands.
+or   : Bitwise OR     : Performs bitwise OR on two operands.
+not  : Bitwise NOT    : Performs bitwise NOT on an operand.
 shl  : Shift Left     : Shifts the bits of the destination operand to the left.
 shr  : Shift Right    : Shifts the bits of the destination operand to the right.
+
+; Control Transfer Instructions
+jmp  : Jump                     : Unconditionally jumps to a specified address.
+je   : Jump if Equal            : Jumps to a specified address if the zero flag is set (equal).
+jne  : Jump if Not Equal        : Jumps to a specified address if the zero flag is not set (not equal).
+jl   : Jump if Less             : Jumps to a specified address if the sign flag is set (less than).
+jg   : Jump if Greater          : Jumps to a specified address if the zero flag is not set and the sign flag is not equal to the overflow flag (greater than).
+jle  : Jump if Less or Equal    : Jumps to a specified address if the zero flag is set or the sign flag is set (less than or equal).
+jge  : Jump if Greater or Equal : Jumps to a specified address if the zero flag is set and the sign flag is not set (greater than or equal).
+
+; String Instructions
+cmpsb : Compare Strings Byte         : Compares two strings byte-by-byte.
+cmpsw : Compare Strings Word         : Compares two strings word-by-word.
+cmpsd : Compare Strings Doubleword   : Compares two strings doubleword-by-doubleword.
+lodsb : Load String Byte             : Loads a byte from the source string into AL.
+lodsw : Load String Word             : Loads a word from the source string into AX.
+lodsd : Load String Doubleword       : Loads a doubleword from the source string into EAX.
+stosb : Store String Byte            : Stores a byte from AL into the destination string.
+stosw : Store String Word            : Stores a word from AX into the destination string.
+stosd : Store String Doubleword      : Stores a doubleword from EAX into the destination string.
+
+; Stack Instructions
+push : Push           : Pushes the value onto the stack.
+pop  : Pop            : Removes the top value from the stack and stores it.
+
+; Miscellaneous Instructions
+nop  : No Operation   : Does nothing and is often used as a placeholder.
+call : Call Procedure : Pushes the address of the next instruction onto the stack and transfers control to a specified procedure.
+ret  : Return         : Pops the top of the stack into the instruction pointer, transferring control back to the calling procedure.
 ```
+```assembly
+; Uncommon x86 Assembly Instructions
+bsf    : Bit Scan Forward                                    : Finds the position of the first set bit (1) in the source operand and stores the result in the destination operand.
+bsr    : Bit Scan Reverse                                    : Finds the position of the last set bit (1) in the source operand and stores the result in the destination operand.
+bt     : Bit Test                                            : Tests the bit at a specified position in the source operand and sets the zero flag accordingly.
+btc    : Bit Test and Complement                             : Tests and complements the bit at a specified position in the source operand.
+btr    : Bit Test and Reset                                  : Tests and resets (clears) the bit at a specified position in the source operand.
+bts    : Bit Test and Set                                    : Tests and sets the bit at a specified position in the source operand.
+xadd   : Exchange and Add                                    : Exchanges the destination operand with the source operand, then adds the source operand to the destination operand.
+xchg   : Exchange                                            : Exchanges the values of two operands.
+cmova  : Conditional Move if Overflow                        : Moves the contents of the source operand to the destination operand if the overflow flag is set.
+cmovb  : Conditional Move if Below (carry flag set)          : Moves the contents of the source operand to the destination operand if the carry flag is set.
+cmovbe : Conditional Move if Below or Equal (CF=1 or ZF=1)   : Moves the contents of the source operand to the destination operand if the carry flag is set or the zero flag is set.
+cmovg  : Conditional Move if Greater (ZF=0 and SF=OF)        : Moves the contents of the source operand to the destination operand if the zero flag is not set and the sign flag equals the overflow flag.
+cmovge : Conditional Move if Greater or Equal (SF=OF)        : Moves the contents of the source operand to the destination operand if the sign flag equals the overflow flag.
+cmovl  : Conditional Move if Less (SF ≠ OF)                  : Moves the contents of the source operand to the destination operand if the sign flag is not equal to the overflow flag.
+cmovle : Conditional Move if Less or Equal (ZF=1 or SF ≠ OF) : Moves the contents of the source operand to the destination operand if the zero flag is set or the sign flag is not equal to the overflow flag.
+cmovno : Conditional Move if Not Overflow                    : Moves the contents of the source operand to the destination operand if the overflow flag is not set.
+cmovnp : Conditional Move if Not Parity                      : Moves the contents of the source operand to the destination operand if the parity flag is not set.
+cmovns : Conditional Move if Not Sign                        : Moves the contents of the source operand to the destination operand if the sign flag is not set.
+cmovnz : Conditional Move if Not Zero                        : Moves the contents of the source operand to the destination operand if the zero flag is not set.
+cmovo  : Conditional Move if Overflow                        : Moves the contents of the source operand to the destination operand if the overflow flag is set.
+cmovp  : Conditional Move if Parity                          : Moves the contents of the source operand to the destination operand if the parity flag is set.
+cmovs  : Conditional Move if Sign                            : Moves the contents of the source operand to the destination operand if the sign flag is set.
+cmovz  : Conditional Move if Zero                            : Moves the contents of the source operand to the destination operand if the zero flag is set.
+```
+
 ## REGISTERS
 ```assembly
 ; General-Purpose Registers:
